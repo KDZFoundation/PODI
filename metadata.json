@@ -1,0 +1,6 @@
+{
+  "name": "PODI - Doradca drukowania na żądanie",
+  "description": "Twój inteligentny Doradca od drukowania na żądanie (POD).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
