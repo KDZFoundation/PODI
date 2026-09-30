@@ -3,27 +3,15 @@
 import { useState } from 'react';
 import TypewriterHeader from '@/components/TypewriterHeader';
 import DictionaryDropdown, { DictionaryTopic } from '@/components/DictionaryDropdown';
-import PodPlatform from '@/components/PodPlatform';
-import { ArrowRight, Sparkles, Building, Utensils, HeartHandshake, Building2 } from 'lucide-react';
 
 export default function Home() {
-  const [activeView, setActiveView] = useState<'advisor' | 'pod'>('advisor');
   const [selectedTopic, setSelectedTopic] = useState<DictionaryTopic | null>(null);
 
   const handleSelectTopic = (topic: DictionaryTopic) => {
     setSelectedTopic(topic);
-    // Jeśli użytkownik wybierze pozycję POD - natychmiast płynnie przechodzimy do platformy POD
-    if (topic.id === 'pod') {
-      setActiveView('pod');
-    }
   };
 
-  // Widok pełnej platformy POD (ze wzorcami Biuroserwis Elbląg + CEWE/Optimalprint)
-  if (activeView === 'pod') {
-    return <PodPlatform onBackToAdvisor={() => setActiveView('advisor')} />;
-  }
-
-  // Widok startowy: Inteligentny Doradca PODI
+  // Widok startowy: Inteligentny Doradca PODI (Etap 1)
   return (
     <main className="min-h-screen bg-white text-neutral-900 flex flex-col justify-between selection:bg-neutral-900 selection:text-white">
       {/* Header bar z subtelnym brandingiem PODI */}
@@ -43,15 +31,9 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Bezpośredni przycisk do platformy POD */}
-          <button
-            onClick={() => setActiveView('pod')}
-            className="px-3.5 py-1.5 rounded-full text-xs font-mono font-semibold bg-neutral-900 text-white hover:bg-neutral-800 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-            <span>Katalog POD & Wyceny</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <span className="text-[11px] font-mono text-neutral-400 border border-neutral-200/80 px-2.5 py-1 rounded-full bg-neutral-50">
+            Etap 1: Szkielet techniczny
+          </span>
         </div>
       </header>
 
@@ -67,25 +49,18 @@ export default function Home() {
           <DictionaryDropdown onSelectTopic={handleSelectTopic} />
         </div>
 
-        {/* Podgląd wybranego profilu, gdy nie jest to bezpośrednio POD */}
+        {/* Informacja o wybranym profilu ze słownika (bez niezatwierdzonej oferty i bez przejścia do PodPlatform) */}
         {selectedTopic && selectedTopic.id !== 'pod' && (
-          <div className="mt-8 p-5 bg-neutral-50 rounded-2xl border border-neutral-200 max-w-lg w-full text-left space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-200">
+          <div className="mt-8 p-5 bg-neutral-50 rounded-2xl border border-neutral-200 max-w-lg w-full text-left space-y-2 animate-in fade-in slide-in-from-bottom-2 duration-200 font-mono">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono font-bold text-sky-700 uppercase tracking-wider bg-sky-50 px-2 py-0.5 rounded">
-                Profil aktywny: {selectedTopic.label}
+              <span className="text-xs font-bold text-neutral-800 uppercase tracking-wider bg-neutral-200/60 px-2 py-0.5 rounded">
+                Wybrany profil: {selectedTopic.label}
               </span>
-              <span className="text-xs text-neutral-500 font-mono">Dopasowana oferta</span>
+              <span className="text-[10px] text-neutral-400">Status definicji</span>
             </div>
-            <p className="text-xs text-neutral-600 leading-relaxed">
-              Dla profilu <strong>{selectedTopic.label}</strong> przygotowaliśmy dedykowane materiały w platformie druku na żądanie (POD): etykiety, foldery, gadżety i karty menu.
+            <p className="text-xs text-neutral-600 font-sans leading-relaxed">
+              Profil został zarejestrowany w słowniku pojęć PODI. Dedykowane reguły doradcze oraz specyfikacje materiałów dla tej branży zostaną zdefiniowane w kolejnych etapach projektu.
             </p>
-            <button
-              onClick={() => setActiveView('pod')}
-              className="w-full py-2.5 px-3 bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer"
-            >
-              <span>Zobacz dedykowane produkty w platformie POD</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
           </div>
         )}
       </div>
@@ -96,7 +71,7 @@ export default function Home() {
           <span>PODI &middot; Inteligentny Doradca drukowania na żądanie</span>
         </div>
         <div className="text-[11px] text-neutral-400 font-mono">
-          Wybierz „POD (Druk na żądanie)” ze słownika, aby wejść do platformy
+          Wybierz „Studio PODI (Druk na żądanie)” ze słownika, aby przejść do /pod
         </div>
       </footer>
     </main>
